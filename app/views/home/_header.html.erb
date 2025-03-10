@@ -1,0 +1,62 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-primary px-3">
+  <div class="container-fluid">
+    
+    <%= link_to "Basecamp 2", root_path, class: "navbar-brand text-dark fw-bold" %>
+
+    <!-- Toggle Button for Small Screens -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex align-items-center">
+
+        <% if user_signed_in? %>
+
+          <li class="nav-item">
+            <%= link_to "About Us", home_about_path, class: "nav-link text-dark" %>
+          </li>
+
+          <li class="nav-item">
+            <%= link_to "Add New Projects", new_project_path, class: "nav-link text-dark" %>
+          </li>
+
+          <% if current_user.has_role?(:admin) %>
+            <li class="nav-item">
+              <%= link_to "Management", admin_users_path, class: "nav-link btn btn-warning text-dark mx-2 px-3 py-1" %>
+            </li>
+          <% end %>
+
+          <li class="nav-item">
+            <%= link_to "Edit Profile", edit_user_registration_path, class: "nav-link text-dark" %>
+          </li>
+
+         
+          <li class="nav-item">
+            <%= button_to "Sign Out", destroy_user_session_path, method: :delete, 
+              class: "btn btn-danger text-dark ms-3", form: { data: { turbo: "false" } } %>
+          </li>
+
+        <% else %>
+          <li class="nav-item">
+            <%= link_to "Sign Up", new_user_registration_path, class: "nav-link text-dark" %>
+          </li>
+
+          <li class="nav-item">
+            <%= link_to "Sign In", new_user_session_path, class: "nav-link text-dark" %>
+          </li>
+        <% end %>
+
+      </ul>
+
+      <form class="d-flex">
+
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+
+        <button class="btn btn-light text-primary fw-bold" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
