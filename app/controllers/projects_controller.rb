@@ -1,27 +1,25 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :correct_user, only: [:edit, :update, :destroy]
+  
 
-  # GET /projects or /projects.json
   def index
-    @projects = Project.all
+    @projects = Project.includes(:user).all
   end
 
-  # GET /projects/1 or /projects/1.json
   def show
   end
 
-  # GET /projects/new
   def new
-    @project = Project.new
+    @project = current_user.projects.build
   end
 
-  # GET /projects/1/edit
   def edit
   end
 
-  # POST /projects or /projects.json
   def create
-    @project = Project.new(project_params)
+    @project = current_user.projects.build(project_params)
 
     respond_to do |format|
       if @project.save
@@ -34,7 +32,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /projects/1 or /projects/1.json
   def update
     respond_to do |format|
       if @project.update(project_params)
@@ -47,24 +44,33 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # DELETE /projects/1 or /projects/1.json
   def destroy
-    @project.destroy!
+    @project = Project.find(params[:id])
+    @project.destroy
+    redirect_to projects_path, notice: "Project was successfully deleted."
+  end
 
-    respond_to do |format|
-      format.html { redirect_to projects_path, status: :see_other, notice: "Project was successfully destroyed." }
-      format.json { head :no_content }
+  def correct_user
+    @project = Project.find_by(id: params[:id])  
+    unless @project && (current_user == @project.user || current_user.has_role?(:admin))
+      redirect_to projects_path, alert: "Not Authorized to Edit or Delete This Project"
+    end
+  end
+  
+
+  private
+
+  def authorize_user
+    unless current_user && (current_user.has_role?(:admin) || current_user.has_role?(:user))
+      redirect_to root_path, alert: "Access Denied"
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_project
-      @project = Project.find(params.expect(:id))
-    end
+  def set_project
+    @project = Project.find(params.require(:id))
+  end
 
-    # Only allow a list of trusted parameters through.
-    def project_params
-      params.expect(project: [ :name, :description ])
-    end
+  def project_params
+    params.require(:project).permit(:name, :description, :user_id)
+  end
 end
