@@ -8,11 +8,6 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   namespace :admin do
-    get "users/index"
-    get "users/show"
-    get "users/edit"
-    get "users/update"
-    get "users/destroy"
     resources :users, only: [:index, :show, :edit, :update, :destroy]do
     member do
       patch :set_admin

@@ -1,2 +1,20 @@
-<h1>Admin::Users#show</h1>
-<p>Find me in app/views/admin/users/show.html.erb</p>
+<h1 class="text-center">User Details</h1>
+
+<div class="card mx-auto" style="width: 30rem;">
+  <div class="card-body">
+    <h5 class="card-title"><%= @user.name %></h5>
+    <p class="card-text"><strong>Email:</strong> <%= @user.email %></p>
+
+    <p class="card-text"><strong>Role:</strong>
+      <% if @user.has_role?(:admin) %>
+        <span class="badge bg-success">Admin</span>
+      <% else %>
+        <span class="badge bg-secondary">User</span>
+      <% end %>
+    </p>
+
+    <p class="card-text"><strong>Joined:</strong> <%= @user.created_at.strftime("%B %d, %Y") %></p>
+
+    <%= link_to "Back", admin_users_path, class: "btn btn-secondary" %>
+  </div>
+</div>
