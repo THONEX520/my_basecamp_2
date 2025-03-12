@@ -1,18 +1,68 @@
 <div class="container mt-4">
-     <div class="row justify-content-center">
-       <div class="col-md-8">
-         <div class="card shadow-sm">
-           <div class="card-body">
-             <h1 class="card-title fw-bold"><%= @project.name %></h1>
-               <p class="card-text"><strong>Description:</strong></p>
-                 <p class="card-text"><%= @project.description %></p>
-                  <hr>
-                <p class="text-muted"><strong>ID:</strong> <%= @project.user_id %></p>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h1 class="card-title fw-bold"><%= @project.name %></h1>
+          <p class="card-text"><strong>Description:</strong></p>
+          <p class="card-text"><%= @project.description %></p>
+          <hr>
+          <p class="text-muted"><strong>Owner ID:</strong> <%= @project.user_id %></p>
 
-              <div class="mt-3">
+          <div class="mt-3">
             <%= link_to "Edit", edit_project_path(@project), class: "btn btn-warning btn-sm" %>
-          <%= link_to "Back", projects_path, class: "btn btn-secondary btn-sm" %>
+            <%= link_to "Back", projects_path, class: "btn btn-secondary btn-sm" %>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Attachments Section -->
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title">Attachments</h2>
+          <%= form_with model: [@project, Attachment.new], local: true, class: "mt-3" do |form| %>
+            <div class="mb-3">
+              <%= form.file_field :file, class: "form-control" %>
+            </div>
+            <%= form.submit "Upload", class: "btn btn-primary" %>
+          <% end %>
+
+          <ul class="list-group mt-3">
+            <% @project.attachments.each do |attachment| %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <%= link_to attachment.file.filename, attachment.file, class: "text-decoration-none" %>
+                <%= link_to "Delete", project_attachment_path(@project, attachment), method: :delete, class: "btn btn-danger btn-sm" %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Threads Section -->
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title">Threads</h2>
+          <% if current_user.admin? %>
+            <div class="mb-3">
+              <%= link_to "Create Thread", new_project_project_thread_path(@project), class: "btn btn-success" %>
+            </div>
+          <% end %>
+
+          <ul class="list-group">
+            <% @project.project_threads.each do |thread| %>
+              <li class="list-group-item">
+                <%= link_to thread.title, project_path(@project), class: "text-decoration-none" %>
+              </li>
+            <% end %>
+          </ul>
         </div>
       </div>
     </div>

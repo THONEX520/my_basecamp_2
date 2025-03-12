@@ -52,3 +52,5 @@ group :test do
   gem "selenium-webdriver"
 end
 
+
+gem "fiddle", "~> 1.1"
