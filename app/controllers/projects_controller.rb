@@ -3,7 +3,6 @@ class ProjectsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :correct_user, only: [:edit, :update, :destroy]
   
-
   def index
     @projects = Project.includes(:user).all
   end
@@ -56,7 +55,6 @@ class ProjectsController < ApplicationController
       redirect_to projects_path, alert: "Not Authorized to Edit or Delete This Project"
     end
   end
-  
 
   private
 
@@ -67,7 +65,7 @@ class ProjectsController < ApplicationController
   end
 
   def set_project
-    @project = Project.find(params.require(:id))
+    @project = Project.find(params[:id])
   end
 
   def project_params

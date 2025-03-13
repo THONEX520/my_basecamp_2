@@ -10,35 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_12_105747) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_12_104938) do
   create_table "attachments", force: :cascade do |t|
     t.integer "project_id", null: false
     t.string "file"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["project_id"], name: "index_attachments_on_project_id"
-  end
-
-  create_table "discussions", force: :cascade do |t|
-    t.integer "project_id", null: false
-    t.string "title"
-    t.text "content"
-    t.integer "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["project_id"], name: "index_discussions_on_project_id"
-    t.index ["user_id"], name: "index_discussions_on_user_id"
-  end
-
-  create_table "project_threads", force: :cascade do |t|
-    t.integer "project_id", null: false
-    t.string "title"
-    t.text "content"
-    t.integer "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["project_id"], name: "index_project_threads_on_project_id"
-    t.index ["user_id"], name: "index_project_threads_on_user_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -82,8 +60,4 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_12_105747) do
   end
 
   add_foreign_key "attachments", "projects"
-  add_foreign_key "discussions", "projects"
-  add_foreign_key "discussions", "users"
-  add_foreign_key "project_threads", "projects"
-  add_foreign_key "project_threads", "users"
 end
