@@ -5,6 +5,5 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :projects, dependent: :destroy
-  has_many :messages
-  has_many :project_threads
+  has_many :discussion_threads, dependent: :destroy
 end
