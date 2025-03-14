@@ -3,9 +3,6 @@ Rails.application.routes.draw do
 
   resources :projects do
     resources :attachments, only: [:create, :destroy]
-    resources :project_threads, only: [:new, :create, :edit, :update, :destroy] do
-      resources :messages, only: [:create, :edit, :update, :destroy]
-    end
   end
 
   get "home/about"

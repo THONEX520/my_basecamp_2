@@ -4,7 +4,6 @@
   <h1 class="text-center mb-4">Projects</h1>
 
   <div class="row">
-
     <% @projects.each do |project| %>
       <div class="col-md-8 mx-auto mb-4">
         <div class="card shadow-sm">
@@ -14,8 +13,23 @@
             <p class="card-text"><%= project.description %></p>
             <hr>
             <p class="text-muted"><strong>ID:</strong> <%= project.user_id %></p>
+
+            <!-- Display uploaded files -->
+            <% if project.files.attached? %>
+              <h6 class="mt-3">Uploaded Files:</h6>
+              <ul class="list-group">
+                <% project.files.each do |file| %>
+                  <li class="list-group-item">
+                    <%= link_to file.filename.to_s, url_for(file), target: "_blank", class: "text-decoration-none" %>
+                  </li>
+                <% end %>
+              </ul>
+            <% else %>
+              <p class="text-muted">No files uploaded.</p>
+            <% end %>
+
             <% if params[:action] == "index" %>
-              <div class="d-flex gap-2">
+              <div class="d-flex gap-2 mt-3">
                 <%= link_to "Show Project", project_path(project), class: "btn btn-primary btn-sm" %>
                 <% if current_user == project.user || current_user.has_role?(:admin) %>
                   <%= link_to "Edit", edit_project_path(project), class: "btn btn-warning btn-sm" %>
@@ -33,12 +47,11 @@
     <%= link_to "New Project", new_project_path, class: "btn btn-success btn-lg" %>
   </div>
 </div>
+
 <% else %>
-</br> </br>
+  <br><br>
   <div class="d-flex flex-column justify-content-center align-items-center vh-110">
     <h1>Hello World!</h1>
     <p class="fw-bold text-primary">Welcome to MyBasecamp2...</p>
   </div>
 <% end %>
-
-

@@ -2,12 +2,13 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: [:index, :show]
   before_action :correct_user, only: [:edit, :update, :destroy]
-  
+
   def index
     @projects = Project.includes(:user).all
   end
 
   def show
+    @attachments = @project.attachments
   end
 
   def new
@@ -44,13 +45,11 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    @project = Project.find(params[:id])
     @project.destroy
     redirect_to projects_path, notice: "Project was successfully deleted."
   end
 
   def correct_user
-    @project = Project.find_by(id: params[:id])  
     unless @project && (current_user == @project.user || current_user.has_role?(:admin))
       redirect_to projects_path, alert: "Not Authorized to Edit or Delete This Project"
     end
@@ -58,17 +57,11 @@ class ProjectsController < ApplicationController
 
   private
 
-  def authorize_user
-    unless current_user && (current_user.has_role?(:admin) || current_user.has_role?(:user))
-      redirect_to root_path, alert: "Access Denied"
-    end
-  end
-
   def set_project
     @project = Project.find(params[:id])
   end
 
   def project_params
-    params.require(:project).permit(:name, :description, :user_id)
-  end
+    params.require(:project).permit(:name, :description, files: [])  
+  end  
 end

@@ -9,8 +9,20 @@
           <hr>
           <p class="text-muted"><strong>ID:</strong> <%= @project.user_id %></p>
 
-         
-          <div class="mt-3">
+          <h2 class="mt-4">Uploaded Files:</h2>
+          <% if @project.files.attached? %>
+            <ul class="list-group">
+              <% @project.files.each do |file| %>
+                <li class="list-group-item">
+                  <%= link_to file.filename.to_s, url_for(file), target: "_blank", class: "text-decoration-none" %>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <p class="text-muted">No files uploaded.</p>
+          <% end %>
+
+          <div class="mt-4 d-flex gap-3">
             <%= link_to "Edit Project", edit_project_path(@project), class: "btn btn-primary" %>
             <%= link_to "Back to Projects", projects_path, class: "btn btn-secondary" %>
           </div>
