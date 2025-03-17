@@ -8,6 +8,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
+    @project = Project.includes(discussion_threads: { messages: :user }).find(params[:id])
     @attachments = @project.attachments
   end
 

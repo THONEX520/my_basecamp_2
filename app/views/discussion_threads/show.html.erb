@@ -1,0 +1,27 @@
+<h1><%= @discussion_thread.title %></h1>
+<p><%= @discussion_thread.description %></p>
+
+<h2>Messages</h2>
+<ul>
+  <% @discussion_thread.messages.each do |message| %>
+    <li>
+      <strong><%= message.user.name %>:</strong> <%= message.content %>
+      <% if message.user == current_user %>
+        <%= link_to "Edit", edit_project_discussion_thread_message_path(@project, @discussion_thread, message) %> |
+        <%= link_to "Delete", project_discussion_thread_message_path(@project, @discussion_thread, message), method: :delete, data: { confirm: "Are you sure?" } %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+
+<h3>Add a Message</h3>
+<%= form_with(model: [@project, @discussion_thread, @discussion_thread.messages.new], local: true) do |f| %>
+  <div>
+    <%= f.label :content, "Message" %>
+    <%= f.text_area :content, required: true %>
+  </div>
+  <div>
+    <%= f.submit "Post Message", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
