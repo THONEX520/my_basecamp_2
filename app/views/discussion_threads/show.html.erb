@@ -1,14 +1,37 @@
 <h3>Messages</h3>
 
-<% @discussion_thread.messages.each do |message| %>
-  <div class="message">
-    <p><strong><%= message.user.email %></strong>: <%= message.content %></p>
+<% if @messages.present? && @messages.any? %>
+  <% @messages.each do |message| %>
+    <% if message.user.present? && message.created_at.present? && message.content.present? %>
+      <div class="card mb-2">
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted">
+            <%= message.user.email %> | <%= time_ago_in_words(message.created_at) %> ago
+          </h6>
+          <p class="card-text"><%= message.content %></p>
 
-    <% if message.user == current_user %>
-      <%= link_to "Edit", edit_discussion_thread_message_path(@discussion_thread, message), class: "btn btn-warning btn-sm" %>
-      <%= link_to "Delete", discussion_thread_message_path(@discussion_thread, message), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" %>
+          <% if message.user == current_user %>
+            <%= link_to "Edit", edit_project_discussion_thread_message_path(@discussion_thread.project, @discussion_thread, message), class: "btn btn-warning btn-sm" %>
+            <%= button_to "Delete", project_discussion_thread_message_path(@discussion_thread.project, @discussion_thread, message), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" %>
+          <% end %>
+        </div>
+      </div>
     <% end %>
-  </div>
+  <% end %>
+<% else %>
+  <p class="text-muted">No messages yet. Be the first to post!</p>
 <% end %>
 
-<%= link_to "New Message", new_discussion_thread_message_path(@discussion_thread), class: "btn btn-primary" %>
+<!-- Post a Message Form -->
+<h3>Post a Message</h3>
+<div class="card p-3 mb-3">
+  <%= form_with(model: [@discussion_thread.project, @discussion_thread, @message], local: true) do |form| %>
+    <div class="mb-2">
+      <%= form.text_area :content, class: "form-control", placeholder: "Type your message here..." %>
+    </div>
+    <%= form.submit "Post Message", class: "btn btn-primary" %>
+  <% end %>
+</div>
+
+<!-- Back Button: Takes user to the Project Show Page -->
+<%= link_to "Back", project_path(@discussion_thread.project), class: "btn btn-secondary" %>

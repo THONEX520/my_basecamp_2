@@ -1,12 +1,11 @@
 <% content_for :title, "Editing message" %>
 
-<h1>Editing message</h1>
+<h1>Editing Message</h1>
 
 <%= render "form", message: @message %>
 
 <br>
 
 <div>
-  <%= link_to "Show this message", @message %> |
-  <%= link_to "Back to messages", messages_path %>
+  <%= link_to "Back to messages", project_discussion_thread_path(@message.discussion_thread.project, @message.discussion_thread), class: "btn btn-secondary" %>
 </div>

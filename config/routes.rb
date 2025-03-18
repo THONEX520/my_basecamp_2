@@ -3,8 +3,8 @@ Rails.application.routes.draw do
 
   resources :projects do
     resources :attachments, only: [:create, :destroy]
-    resources :discussion_threads, only: [:show, :new, :create, :edit, :update, :destroy] do
-      resources :messages, only: [:new, :create, :edit, :update, :destroy]  # Nested properly
+    resources :discussion_threads, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+      resources :messages, only: [:create, :edit, :update, :destroy] 
     end
   end
 
