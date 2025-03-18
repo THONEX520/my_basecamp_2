@@ -6,10 +6,17 @@ class DiscussionThreadsController < ApplicationController
     def new
       @discussion_thread = @project.discussion_threads.new
     end
+
+    def show
+        @project = Project.find(params[:project_id])
+        @discussion_thread = @project.discussion_threads.find(params[:id])
+        @message = Message.new
+    end
+      
   
     def create
       @discussion_thread = @project.discussion_threads.new(discussion_thread_params)
-      @discussion_thread.user = current_user  # Track who created it
+      @discussion_thread.user = current_user 
       if @discussion_thread.save
         redirect_to @project, notice: "Discussion thread created successfully."
       else

@@ -1,27 +1,14 @@
-<h1><%= @discussion_thread.title %></h1>
-<p><%= @discussion_thread.description %></p>
+<h3>Messages</h3>
 
-<h2>Messages</h2>
-<ul>
-  <% @discussion_thread.messages.each do |message| %>
-    <li>
-      <strong><%= message.user.name %>:</strong> <%= message.content %>
-      <% if message.user == current_user %>
-        <%= link_to "Edit", edit_project_discussion_thread_message_path(@project, @discussion_thread, message) %> |
-        <%= link_to "Delete", project_discussion_thread_message_path(@project, @discussion_thread, message), method: :delete, data: { confirm: "Are you sure?" } %>
-      <% end %>
-    </li>
-  <% end %>
-</ul>
+<% @discussion_thread.messages.each do |message| %>
+  <div class="message">
+    <p><strong><%= message.user.email %></strong>: <%= message.content %></p>
 
-<h3>Add a Message</h3>
-<%= form_with(model: [@project, @discussion_thread, @discussion_thread.messages.new], local: true) do |f| %>
-  <div>
-    <%= f.label :content, "Message" %>
-    <%= f.text_area :content, required: true %>
-  </div>
-  <div>
-    <%= f.submit "Post Message", class: "btn btn-primary" %>
+    <% if message.user == current_user %>
+      <%= link_to "Edit", edit_discussion_thread_message_path(@discussion_thread, message), class: "btn btn-warning btn-sm" %>
+      <%= link_to "Delete", discussion_thread_message_path(@discussion_thread, message), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" %>
+    <% end %>
   </div>
 <% end %>
 
+<%= link_to "New Message", new_discussion_thread_message_path(@discussion_thread), class: "btn btn-primary" %>

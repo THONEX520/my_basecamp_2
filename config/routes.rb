@@ -3,10 +3,10 @@ Rails.application.routes.draw do
 
   resources :projects do
     resources :attachments, only: [:create, :destroy]
-    resources :discussion_threads, only: [:show, :new, :create, :edit, :update, :destroy]do
-    resources :messages, only: [:new, :create, :edit, :update, :destroy]
+    resources :discussion_threads, only: [:show, :new, :create, :edit, :update, :destroy] do
+      resources :messages, only: [:new, :create, :edit, :update, :destroy]  # Nested properly
+    end
   end
-end
 
   get "home/about"
   root "projects#index"

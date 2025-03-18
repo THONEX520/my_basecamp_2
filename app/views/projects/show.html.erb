@@ -55,8 +55,9 @@
                           <p><strong><%= message.user&.email || "Unknown User" %></strong></p>
                           <% if message.user == current_user %>
                             <div>
-                              <%= link_to "Edit", edit_discussion_thread_message_path(thread, message), class: "btn btn-warning btn-sm" %>
-                              <%= link_to "Delete", discussion_thread_message_path(thread, message), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" %>
+                              <%= link_to "Edit", edit_project_discussion_thread_message_path(@project, thread, message), class: "btn btn-warning btn-sm" %>
+                              <%= link_to "Delete", project_discussion_thread_message_path(@project, thread, message), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" %>
+
                             </div>
                           <% end %>
                         </li>

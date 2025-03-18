@@ -2,10 +2,10 @@
 
 one:
   content: MyText
-  user: one
   discussion_thread: one
+  user: one
 
 two:
   content: MyText
-  user: two
   discussion_thread: two
+  user: two
