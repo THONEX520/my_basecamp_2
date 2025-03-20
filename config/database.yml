@@ -24,18 +24,13 @@ test:
 # Store production database in the storage/ directory, which by default
 # is mounted as a persistent Docker volume in config/deploy.yml.
 production:
-  primary:
-    <<: *default
-    database: storage/production.sqlite3
-  cache:
-    <<: *default
-    database: storage/production_cache.sqlite3
-    migrations_paths: db/cache_migrate
-  queue:
-    <<: *default
-    database: storage/production_queue.sqlite3
-    migrations_paths: db/queue_migrate
-  cable:
-    <<: *default
-    database: storage/production_cable.sqlite3
-    migrations_paths: db/cable_migrate
+  adapter: postgresql
+  encoding: unicode
+  database: mybasecamp2_db
+  username: mybasecamp2_db_user
+  password: OG3tI0n4O3bTXvy26GJFYIkPDwK2TRQM
+  host: dpg-cvdda9pu0jms739mi00g-a.oregon-postgres.render.com
+  port: 5432
+  pool: 5
+  timeout: 5000
+  url: <%= ENV["DATABASE_URL"] %>

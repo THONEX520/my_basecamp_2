@@ -17,7 +17,10 @@ gem "stimulus-rails"
 
 gem "jbuilder"
 
+gem 'pg', '~> 1.5', '>= 1.5.9'
+
 gem 'devise'
+
 gem 'rolify', '~> 6.0', '>= 6.0.1'
 
 gem "tzinfo-data", platforms: %i[ windows jruby ]
