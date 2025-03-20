@@ -41,10 +41,18 @@ cable:
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
   host: <%= ENV['DB_HOST'] %>
-  
+
 queue:
     adapter: postgresql
     database: mybasecamp2_queue
     username: <%= ENV['DATABASE_USERNAME'] %>
     password: <%= ENV['DATABASE_PASSWORD'] %>
     host: <%= ENV['DATABASE_HOST'] %>
+
+cache:
+  adapter: postgresql
+  database: <%= ENV['CACHE_DATABASE_NAME'] || 'mybasecamp2_cache' %>
+  username: <%= ENV['DATABASE_USER'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  host: <%= ENV['DATABASE_HOST'] %>
+  pool: 5
