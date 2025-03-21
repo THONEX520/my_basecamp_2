@@ -14,9 +14,8 @@ class Admin::UsersController < ApplicationController
   end
 
   def set_admin
-    @user = User.find(params[:id]) # Find the user by ID
-    @user.add_role(:admin) # Assign the admin role
-    redirect_to users_path, notice: "#{@user.email} is now an Admin." # Redirect to the users list
+    @user.add_role(:admin)
+    redirect_to admin_users_path, notice: "#{@user.email} is now an Admin."
   end
 
   def remove_admin
@@ -37,6 +36,6 @@ class Admin::UsersController < ApplicationController
   end
 
   def authorize_admin
-    #redirect_to root_path, alert: "Not authorized!" unless current_user.has_role?(:admin)
+    redirect_to root_path, alert: "Not authorized!" unless current_user.has_role?(:admin)
   end
 end

@@ -23,15 +23,17 @@
             <%= link_to "Add New Projects", new_project_path, class: "nav-link text-dark" %>
           </li>
 
-          <!-- Management Button Visible to All Signed-In Users -->
-          <li class="nav-item">
-            <%= link_to "Management", admin_users_path, class: "nav-link btn btn-warning text-dark mx-2 px-3 py-1" %>
-          </li>
+          <% if current_user.has_role?(:admin) %>
+            <li class="nav-item">
+              <%= link_to "Management", admin_users_path, class: "nav-link btn btn-warning text-dark mx-2 px-3 py-1" %>
+            </li>
+          <% end %>
 
           <li class="nav-item">
             <%= link_to "Edit Profile", edit_user_registration_path, class: "nav-link text-dark" %>
           </li>
 
+         
           <li class="nav-item">
             <%= button_to "Sign Out", destroy_user_session_path, method: :delete, 
               class: "btn btn-danger text-dark ms-3", form: { data: { turbo: "false" } } %>
@@ -50,7 +52,9 @@
       </ul>
 
       <form class="d-flex">
+
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+
         <button class="btn btn-light text-primary fw-bold" type="submit">Search</button>
       </form>
     </div>
