@@ -49,13 +49,13 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    @project.destroy
-    redirect_to projects_path, notice: "Project was successfully deleted."
-  end
-
-  def correct_user
-    unless @project && (current_user == @project.user || current_user.has_role?(:admin))
-      redirect_to projects_path, alert: "Not Authorized to Edit or Delete This Project"
+    @project = Project.find(params[:id])
+  
+    if current_user == @project.user || current_user.has_role?(:admin)
+      @project.destroy
+      redirect_to projects_path, notice: "Project deleted successfully."
+    else
+      redirect_to projects_path, alert: "You are not authorized to delete this project."
     end
   end
 
